@@ -1,0 +1,8 @@
+Django YSlow plugin
+Author: Harish Mallipeddi (harish.mallipeddi@gmail.com)
+
+This Django utility adds new management commands & a couple of template tags which let you generate optimized builds of your Django application. Best practices recommended by Yahoo's YSlow project are adopted.
+
+This project should be of interest to you if you're writing a Django app and would like to achieve better YSlow grades!
+
+For more info, look at the wiki page.
