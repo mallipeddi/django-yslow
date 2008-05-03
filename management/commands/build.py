@@ -164,7 +164,8 @@ class Command(NoArgsCommand):
         def handle_html(srcfolder, file, target):
             "Minify inline <script> and <style> tags."
             
-            if not compress_inline_script and compress_inline_style:
+            if not compress_inline_script and not compress_inline_style:
+                handle_default(srcfolder, file, target)
                 return
             from BeautifulSoup import BeautifulSoup
             htmlin = os.path.join(srcfolder, file)
