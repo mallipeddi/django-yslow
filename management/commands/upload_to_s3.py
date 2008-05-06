@@ -67,6 +67,10 @@ class Command(NoArgsCommand):
                     continue # Skip this, because it's not a file.
                 
                 log("Uploading %s" % filename)
+                # guess content-type
+                content_type = mimetypes.guess_type(filename)[0]
+                if not content_type:
+                    content_type = 'text/plain'
                 upload_options = {
                     'x-amz-acl': 'public-read',
                     'Content-Type': content_type,
@@ -85,10 +89,6 @@ class Command(NoArgsCommand):
                     expires = (datetime.now() + timedelta(days=FAR_FUTURE_EXPIRY)).strftime(HTTP_DATE)
                     upload_options['Expires'] = expires
                 
-                # guess content-type
-                content_type = mimetypes.guess_type(filename)[0]
-                if not content_type:
-                    content_type = 'text/plain'
                 conn.put(
                     BUCKET_NAME, filename, S3.S3Object(filedata),
                     upload_options
