@@ -8,4 +8,7 @@ def version(request):
     if settings.DEBUG:
         return {'VERSION_STRING':''}
     else:
-        return {'VERSION_STRING': '.' + settings.VERSION}
+        if hasattr(settings, 'VERSION'):
+            return {'VERSION_STRING': '.' + settings.VERSION}
+        else:
+            return {'VERSION_STRING':'.v1'}
