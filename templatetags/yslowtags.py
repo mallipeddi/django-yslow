@@ -1,6 +1,7 @@
 from django.template import Node, NodeList, Template, Context, Variable, Library
 from django.template import TemplateSyntaxError, VariableDoesNotExist
 from django.conf import settings
+from yslow import utils
 
 register = Library()
 
@@ -9,8 +10,8 @@ def ifprod(parser, token):
     
     Concatenated file has to be generated prior to this, by running the management command "build".
     
-    If settings.DEBUG mode is OFF, replaces enclosed <script> tags with one <script> tag.
-    If settings.DEBUG mode is ON, does nothing.
+    If optimization is OFF, replaces enclosed <script> tags with one <script> tag.
+    If optimization is ON, does nothing.
     
     It makes sure to include a script or css stylesheet only once per entire template.
     """
@@ -36,7 +37,7 @@ class IfProdNode(Node):
         self.rendered = False
     
     def render(self, context):
-        if settings.DEBUG:
+        if not utils.should_optimize():
             return self.nodelist.render(context)
         elif not self.rendered:
             resolved_new_file = Template(self.new_file).render(context)

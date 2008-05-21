@@ -1,11 +1,13 @@
 from django.conf import settings
+from yslow import utils
+
 def version(request):
     """Insert version info into the context.
     
-    If DEBUG mode is ON, return empty version string.
-    If DEBUG mode is OFF, return version string from settings.
+    If optimization is OFF, return empty version string.
+    If optimization is ON, return version string from settings.
     """
-    if settings.DEBUG:
+    if not utils.should_optimize():
         return {'VERSION_STRING':''}
     else:
         if hasattr(settings, 'VERSION'):
